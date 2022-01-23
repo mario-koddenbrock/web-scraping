@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# html-content folder
+html-content/
+
+# virtuel enviroment
+scrabbing-venv
