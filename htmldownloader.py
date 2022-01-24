@@ -1,7 +1,7 @@
 import os
 import time
 import urllib.request
-from datetime import date
+from datetime import datetime
 
 import lxml
 import requests
@@ -31,7 +31,12 @@ class HtmlDownloader:
         while True:
 
             self.download_new_articles()
-            time.sleep(self.waiting_seconds)
+
+            for sec in range(self.waiting_seconds, 0, -1):
+                print(f"\r[{datetime.now()}] Still waiting {sec} seconds...", end='')
+                time.sleep(1)
+
+            print(f"\r[{datetime.now()}] Starting again...")
 
     def download_new_articles(self):
 
@@ -40,7 +45,7 @@ class HtmlDownloader:
         count_new_article = 0
 
         for a in articles:
-            title = a.find('title').text
+            # title = a.find('title').text
             link = a.find('guid').text
             name = os.path.basename(link)
             local_html_path = f"{self.html_folder}\\{name}"
@@ -49,12 +54,13 @@ class HtmlDownloader:
                 continue
 
             count_new_article += 1
-            print(f"Found new Article: {title} \n -> saved to {local_html_path}")
+            print(f"Found new Article: {local_html_path}")
 
             urllib.request.urlretrieve(link,
                                        local_html_path)
 
-        print(f"[{date.today()}] Found {count_new_article} new articles")
+        if (count_new_article > 0):
+            print(f"[{datetime.now()}] Found {count_new_article} new articles (from {len(articles)})")
 
     def get_rss_soup(self):
         try:
