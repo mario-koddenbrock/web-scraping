@@ -7,6 +7,8 @@ import lxml
 import requests
 from bs4 import BeautifulSoup
 
+from notification import send_mail
+
 
 class HtmlDownloader:
 
@@ -27,18 +29,23 @@ class HtmlDownloader:
 
         print(f"Initialize downloading: {self.rss_path}")
 
+    def __del__(self):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        send_mail("Python Script Stopped", now)
+
     def run(self):
         while True:
 
-            self.download_new_articles()
+            self.download_articles_html()
 
             for sec in range(self.waiting_seconds, 0, -1):
-                print(f"\r[{datetime.now()}] Still waiting {sec} seconds...", end='')
+                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print(f"\r[{now}] Still waiting {sec} seconds...", end='')
                 time.sleep(1)
 
             print(f"\r[{datetime.now()}] Starting again...")
 
-    def download_new_articles(self):
+    def download_articles_rss(self):
 
         rss_soup = self.get_rss_soup()
         articles = rss_soup.findAll('item')
@@ -60,7 +67,40 @@ class HtmlDownloader:
                                        local_html_path)
 
         if (count_new_article > 0):
-            print(f"[{datetime.now()}] Found {count_new_article} new articles (from {len(articles)})")
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{now}] Found {count_new_article} new articles (from {len(articles)})")
+
+    def download_articles_html(self):
+
+        r = requests.get("https://www.tagesschau.de")
+        soup = BeautifulSoup(r.content, 'html.parser')
+
+        divs = soup.findAll('a', {"class": "teaser__link"}, href=True)
+        count_article_new = 0
+        count_articles = 0
+
+        for div in divs:
+
+            link = div["href"]
+
+            if not link.endswith(".html"):
+                continue
+
+            name = os.path.basename(link)
+            local_html_path = f"{self.html_folder}\\{name}"
+            count_articles += 1
+
+            if os.path.isfile(local_html_path):
+                continue
+
+            count_article_new += 1
+            print(f"Found new Article: {local_html_path}")
+
+            urllib.request.urlretrieve(link, local_html_path)
+
+        if (count_article_new > 0):
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[{now}] Found {count_article_new} new articles (from {count_articles})")
 
     def get_rss_soup(self):
         try:
