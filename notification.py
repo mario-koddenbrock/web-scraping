@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 def send_mail(
     subject="News from RaspberryPi",
     body="Just an email from the Python.",
-    to=["koddenbrock@gmail.com", "hasensilvester@gmail.com"]
+    to="koddenbrock@gmail.com"  # to=["koddenbrock@gmail.com", "hasensilvester@gmail.com"]
 ):
 
     if isinstance(to, list):
