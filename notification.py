@@ -26,11 +26,11 @@ def send_mail(
     message.attach(MIMEText(body, 'plain'))
 
     try:
-        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server.ehlo()
-        server.login(gmail_user, gmail_password)
-        server.sendmail(sent_from, to, message.as_string())
-        server.close()
+        # server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        # server.ehlo()
+        # server.login(gmail_user, gmail_password)
+        # server.sendmail(sent_from, to, message.as_string())
+        # server.close()
 
         print('Email sent!')
     except Exception as err:
