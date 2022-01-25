@@ -25,7 +25,7 @@ class HtmlDownloader:
             except OSError:
                 print(f"Creation of the directory for html content failed [{self.html_folder}]")
 
-        print(f"Initialize downloadin loop: {self.rss_path}")
+        print(f"Initialize downloading: {self.rss_path}")
 
     def run(self):
         while True:
