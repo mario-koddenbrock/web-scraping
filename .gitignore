@@ -133,3 +133,6 @@ html-content/
 
 # virtuel enviroment
 scrabbing-venv
+
+# Pycharm Config
+.idea
