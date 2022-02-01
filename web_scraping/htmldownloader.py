@@ -7,7 +7,7 @@ import lxml
 import requests
 from bs4 import BeautifulSoup
 
-from notification import send_mail
+from web_scraping.notification import send_mail
 
 
 class HtmlDownloader:
