@@ -1,3 +1,5 @@
+from pydoc import HTMLRepr
+from htmldownloader import HtmlDownloader
 import click
 from web_scraping.web_scraping import addition
 
@@ -23,3 +25,9 @@ def cli_group():
 def adding_two_numbers(first_summand, second_summand):
     final_sum = addition(first_summand, second_summand)
     click.echo('The sum is %s' % final_sum)
+
+
+@cli_group.command(help='This command starts downloader')
+def start_downloader():
+    html = HtmlDownloader(waiting_seconds=100)
+    html.run()
