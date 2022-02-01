@@ -1,12 +1,10 @@
+# %%
 import os
 import time
-import urllib.request
 from datetime import datetime
-
-import lxml
-import requests
-from bs4 import BeautifulSoup
+from os import walk
 from notification import send_mail
+from datetime import timedelta
 
 
 class HtmlDownloadMonitoring:
@@ -17,12 +15,42 @@ class HtmlDownloadMonitoring:
                  waiting_seconds=600):
 
         self.html_folder = html_folder
-        self.time_threshold = time_threshold  # in hours
+        self.time_threshold = timedelta(hours=time_threshold)  # in hours
         self.waiting_seconds = waiting_seconds
 
         if not os.path.isdir(self.html_folder):
-            # todo need an small advice from chris here!
+            # todo: need an small advice from chris here!
             send_mail(**self.format_mail_content("Folder not found!", "HTML Folder missing"))
+
+    def run(self):
+
+        while True:
+
+            if not self.check_files():
+                text = f"""No new articles have been downloaded in the last 
+                        {self.time_threshold} hours, maybe something is wrong 
+                        with the web server."""
+                send_mail(**self.format_mail_content("No new files!", text))
+                return
+
+            for sec in range(self.waiting_seconds, 0, -1):
+                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print(f"\r[{now}] Still waiting {sec} seconds...", end='')
+                time.sleep(1)
+
+    def check_files(self):
+        filenames = next(walk(self.html_folder), (None, None, []))[2]
+
+        for file in filenames:
+            created = datetime.fromtimestamp(os.path.getctime(
+                f"{self.html_folder}\\{file}"))
+
+            time_delta = datetime.now() - created
+
+            if (time_delta < self.time_threshold):
+                return True
+
+        return False
 
     def format_mail_content(self, subject, content):
 
@@ -36,4 +64,5 @@ class HtmlDownloadMonitoring:
         return (subject_str, content_str)
 
 
-monitor = HtmlDownloadMonitoring(html_folder="dummy")
+monitor = HtmlDownloadMonitoring(html_folder="html-content")
+monitor.run()
