@@ -1,5 +1,5 @@
 from pydoc import HTMLRepr
-from htmldownloader import HtmlDownloader
+from web_scraping.htmldownloader import HtmlDownloader
 import click
 from web_scraping.web_scraping import addition
 
