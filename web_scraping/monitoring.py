@@ -1,10 +1,10 @@
 # %%
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from os import walk
-from notification import send_mail
-from datetime import timedelta
+
+from web_scraping.notification import send_mail
 
 
 class HtmlDownloadMonitoring:
