@@ -28,7 +28,7 @@ setuptools.setup(
     long_description=read("README.rst"),
     long_description_content_type='test/x-rst',
     packages=setuptools.find_packages(exclude=('tests')),
-    install_requires=['click'],
+    install_requires=['click', 'lxml', 'requests', 'bs4'],
     entry_points={
         'console_scripts': [
             'web_magpie=web_scraping.cli:cli_group'
