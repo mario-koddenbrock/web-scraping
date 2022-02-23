@@ -31,7 +31,7 @@ setuptools.setup(
     install_requires=['click', 'lxml', 'requests', 'bs4'],
     entry_points={
         'console_scripts': [
-            'web_magpie=web_scraping.cli:cli_group'
+            'web_scrappig=web_scraping.cli:cli_group'
         ],
     },
 )
