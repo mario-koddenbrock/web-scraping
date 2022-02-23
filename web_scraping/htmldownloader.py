@@ -20,8 +20,8 @@ class HtmlDownloader:
         self.rss_path = rss_path
         self.html_folder = html_folder
         self.waiting_seconds = waiting_seconds
-
-        if os.path.isdir(self.html_folder):
+        
+        if not os.path.isdir(self.html_folder):
             try:
                 os.mkdir(self.html_folder)
             except OSError:
@@ -55,6 +55,8 @@ class HtmlDownloader:
             # title = a.find('title').text
             link = a.find('guid').text
             name = os.path.basename(link)
+            
+            
             local_html_path = os.path.join(self.html_folder, name)
             # local_html_path = f"{self.html_folder}\\{name}"
 

@@ -16,7 +16,7 @@ def read(filename):
 
 
 setuptools.setup(
-    name="web_scraping",
+    name="webscraping",
     version="0.0.1",
     url="https://github.com/mario-koddenbrock/web-scraping",
     license='MIT',
@@ -31,7 +31,7 @@ setuptools.setup(
     install_requires=['click', 'lxml', 'requests', 'bs4'],
     entry_points={
         'console_scripts': [
-            'web_scrappig=web_scraping.cli:cli_group'
+            'webscraping=web_scraping.cli:cli_group'
         ],
     },
 )

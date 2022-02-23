@@ -29,5 +29,8 @@ def adding_two_numbers(first_summand, second_summand):
 
 @cli_group.command(help='This command starts downloader')
 def start_downloader():
-    html = HtmlDownloader(waiting_seconds=100)
+    html = HtmlDownloader(
+        waiting_seconds=100,
+        html_folder="/media/pi/E8080B9F080B6BBE/html-content"
+        )
     html.run()
