@@ -55,7 +55,8 @@ class HtmlDownloader:
             # title = a.find('title').text
             link = a.find('guid').text
             name = os.path.basename(link)
-            local_html_path = f"{self.html_folder}\\{name}"
+            local_html_path = os.path.join(self.html_folder, name)
+            # local_html_path = f"{self.html_folder}\\{name}"
 
             if os.path.isfile(local_html_path):
                 continue
@@ -87,7 +88,8 @@ class HtmlDownloader:
                 continue
 
             name = os.path.basename(link)
-            local_html_path = f"{self.html_folder}\\{name}"
+            local_html_path = os.path.join(self.html_folder, name)
+            # local_html_path = f"{self.html_folder}\\{name}"
             count_articles += 1
 
             if os.path.isfile(local_html_path):
